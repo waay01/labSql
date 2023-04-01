@@ -1,7 +1,6 @@
 #include "dialogupdate.h"
 #include "ui_dialogupdate.h"
 
-
 #include <QSql>
 #include <QSqlQuery>
 
@@ -24,7 +23,7 @@ void DialogUpdate::on_pushButton_clicked()
     QSqlQuery query;
 
     db.open();
-//    query.exec(QString("update author set fio = '%1', address = '%2' where id = %3").arg(ui->lineEdit->text(), ui->lineEdit_2->text(), ));
+    query.exec(QString("update author set fio = '%1', address = '%2' where id = %3").arg(ui->lineEdit->text(), ui->lineEdit_2->text(), MainWindow.sendData(0);));
     db.close();
     close();
 }

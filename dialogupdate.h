@@ -2,6 +2,7 @@
 #define DIALOGUPDATE_H
 
 #include <QDialog>
+#include "mainwindow.h"
 
 namespace Ui {
 class DialogUpdate;
@@ -20,6 +21,7 @@ private slots:
 
 private:
     Ui::DialogUpdate *ui;
+    MainWindow *mainWindow;
 };
 
 #endif // DIALOGUPDATE_H

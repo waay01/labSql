@@ -30,8 +30,10 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    DialogUpdate *dialogUpdate = new DialogUpdate;
-    dialogUpdate->show();
+    ui->tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEdit()));
+
+    connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContexMenu(QPoint)));
 }
 
 void MainWindow::on_pushButton_3_clicked()
@@ -87,4 +89,25 @@ void MainWindow::on_pushButton_4_clicked()
     }
 }
 
+void MainWindow::sendData(int column) {
+//    ui->tableWidget->columnAt(column).text();
+}
 
+void MainWindow::slotContexMenu(QPoint pos) {
+    QMenu *menu = new QMenu(this);
+
+    QAction *editSlot = new QAction("Редактировать", this);
+    connect(editSlot, SIGNAL(triggered()), this, SLOT(slotEdit()));
+
+
+
+    menu->addAction(editSlot);
+    menu->popup(ui->tableWidget->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::slotEdit() {
+    qDebug() << "ContexMenu";
+    DialogUpdate dialogUpdate;
+    dialogUpdate.setModal(true);
+    dialogUpdate.exec();
+}

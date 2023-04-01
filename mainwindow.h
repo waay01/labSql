@@ -24,7 +24,11 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void sendData(int column);
 
+    void slotEdit();
+
+    void slotContexMenu(QPoint pos);
 private:
     Ui::MainWindow *ui;
 };
