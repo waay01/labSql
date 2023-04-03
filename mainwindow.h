@@ -24,7 +24,7 @@ private slots:
 
     void on_pushButton_4_clicked();
 
-    void sendData(int column);
+    int sendDataID();
 
     void slotEdit();
 

@@ -89,8 +89,8 @@ void MainWindow::on_pushButton_4_clicked()
     }
 }
 
-void MainWindow::sendData(int column) {
-//    ui->tableWidget->columnAt(column).text();
+int MainWindow::sendDataID() {
+    return ui->tableWidget->currentItem()->text().toInt();
 }
 
 void MainWindow::slotContexMenu(QPoint pos) {
@@ -107,6 +107,7 @@ void MainWindow::slotContexMenu(QPoint pos) {
 
 void MainWindow::slotEdit() {
     qDebug() << "ContexMenu";
+//    DialogUpdate *dialogUpdate = new DialogUpdate(this);
     DialogUpdate dialogUpdate;
     dialogUpdate.setModal(true);
     dialogUpdate.exec();

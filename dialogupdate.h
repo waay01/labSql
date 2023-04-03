@@ -21,7 +21,7 @@ private slots:
 
 private:
     Ui::DialogUpdate *ui;
-    MainWindow *mainWindow;
+//    MainWindow *mainWindow;
 };
 
 #endif // DIALOGUPDATE_H
