@@ -2,6 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSql>
+#include <QSqlQuery>
+#include <iostream>
+
+#include "databaseQuery.h"
+#include "dialog.h"
+#include "dialogupdate.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -13,6 +21,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 private slots:
@@ -24,9 +33,11 @@ private slots:
 
     void on_pushButton_4_clicked();
 
-    int sendDataID();
+    void slotAdd();
 
     void slotEdit();
+
+    void slotDelete();
 
     void slotContexMenu(QPoint pos);
 private:

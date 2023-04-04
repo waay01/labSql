@@ -16,17 +16,18 @@ DialogUpdate::~DialogUpdate()
     delete ui;
 }
 
+QStringList DialogUpdate::getData()
+{
+    QStringList dataList;
+
+    dataList += ui->lineEdit->text();
+    dataList += ui->lineEdit_2->text();
+
+    return dataList;
+}
+
 void DialogUpdate::on_pushButton_clicked()
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("lab.db");
-    QSqlQuery query;
-
-//    ui->label->setText(QString::number(mainWindow->sendDataID()));
-
-    db.open();
-//    query.exec(QString("update author set fio = '%1', address = '%2' where id = %3").arg(ui->lineEdit->text(), ui->lineEdit_2->text(), mainWindow->sendDataID()));
-    db.close();
     close();
 }
 

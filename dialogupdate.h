@@ -16,12 +16,13 @@ public:
     explicit DialogUpdate(QWidget *parent = nullptr);
     ~DialogUpdate();
 
+    QStringList getData();
+
 private slots:
     void on_pushButton_clicked();
 
 private:
     Ui::DialogUpdate *ui;
-//    MainWindow *mainWindow;
 };
 
 #endif // DIALOGUPDATE_H

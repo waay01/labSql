@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>740</width>
     <height>600</height>
    </rect>
   </property>
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
-      <width>500</width>
-      <height>500</height>
+      <y>60</y>
+      <width>551</width>
+      <height>481</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -166,18 +166,81 @@
      <string>Обновить</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>action</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>author</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>book</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>logs</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>marketBook</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>staffMember</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>typeStyle</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>26</height>
+     <width>740</width>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuDatabase">
+    <property name="title">
+     <string>Database</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionClose"/>
+   </widget>
+   <addaction name="menuDatabase"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

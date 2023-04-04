@@ -2,6 +2,7 @@
 #define DIALOG_H
 
 #include <QDialog>
+#include "mainwindow.h"
 
 namespace Ui {
 class Dialog;
@@ -14,6 +15,8 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
+
+    QStringList getData();
 
 private slots:
     void on_pushButton_clicked();

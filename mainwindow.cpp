@@ -1,13 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include "dialog.h"
-#include "dialogupdate.h"
-#include <QSql>
-#include <QSqlQuery>
-
-#include <iostream>
-
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -15,6 +8,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotAdd()));
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEdit()));
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotDelete()));
+    connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContexMenu(QPoint)));
+
 }
 
 MainWindow::~MainWindow()
@@ -24,28 +24,30 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Dialog *dialog = new Dialog;
-    dialog->show();
+//    Dialog dialog;
+//    dialog.setModal(true);
+//    dialog.exec();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    ui->tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEdit()));
+//    ui->tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+//    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEdit()));
 
-    connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContexMenu(QPoint)));
+//    connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContexMenu(QPoint)));
+//
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QSqlQuery query;
-    db.setDatabaseName("lab.db");
+//    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+//    QSqlQuery query;
+//    db.setDatabaseName("lab.db");
 
-    qDebug() << ui->tableWidget->currentRow();
-    db.open();
-    query.exec(QString("delete from author where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
-    db.close();
+//    qDebug() << ui->tableWidget->currentRow();
+//    db.open();
+//    query.exec(QString("delete from author where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
+//    db.close();
 }
 
 void MainWindow::on_pushButton_4_clicked()
@@ -55,14 +57,11 @@ void MainWindow::on_pushButton_4_clicked()
     QSqlQuery query;
     QStringList nameColumn, itemList;
 
+    QString strTable = ui->comboBox->currentText();
 
     db.setDatabaseName("lab.db");
     db.open();
 
-    query.exec("PRAGMA table_info(author)");
-    while(query.next()) {
-        nameColumn += query.value(1).toStringList();
-    }
     countColumn = nameColumn.size();
 
 
@@ -87,28 +86,49 @@ void MainWindow::on_pushButton_4_clicked()
         }
         countResultQuery += countColumn;
     }
-}
-
-int MainWindow::sendDataID() {
-    return ui->tableWidget->currentItem()->text().toInt();
+    // optimizate
 }
 
 void MainWindow::slotContexMenu(QPoint pos) {
     QMenu *menu = new QMenu(this);
 
+    QAction *addSlot = new QAction("Добавить", this);
+    connect(addSlot, SIGNAL(triggered()), this, SLOT(slotAdd()));
+
     QAction *editSlot = new QAction("Редактировать", this);
     connect(editSlot, SIGNAL(triggered()), this, SLOT(slotEdit()));
 
+    QAction *deleteSlot = new QAction("Удалить", this);
+    connect(deleteSlot, SIGNAL(triggered()), this, SLOT(slotDelete()));
 
-
+    menu->addAction(addSlot);
     menu->addAction(editSlot);
+    menu->addAction(deleteSlot);
     menu->popup(ui->tableWidget->viewport()->mapToGlobal(pos));
 }
 
+void MainWindow::slotAdd() {
+    Dialog dialog;
+    dialog.setModal(true);
+    dialog.exec();
+
+    databaseQuery databaseQuery;
+    databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialog.getData()[0], dialog.getData()[1]));
+}
+
 void MainWindow::slotEdit() {
-    qDebug() << "ContexMenu";
-//    DialogUpdate *dialogUpdate = new DialogUpdate(this);
+
     DialogUpdate dialogUpdate;
     dialogUpdate.setModal(true);
     dialogUpdate.exec();
+
+    if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "") {
+        databaseQuery databaseQuery;
+        databaseQuery.execQuery(QString("update author set fio = '%1', address = '%2' where id = %3").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1], QString::number(ui->tableWidget->currentItem()->text().toInt())));
+    }
+}
+
+void MainWindow::slotDelete() {
+    databaseQuery databaseQuery;
+    databaseQuery.execQuery(QString("delete from author where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
 }

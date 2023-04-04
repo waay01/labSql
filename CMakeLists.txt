@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
         dialogupdate.h
         dialogupdate.cpp
         dialogupdate.ui
+        databasequery.h
+        databasequery.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
