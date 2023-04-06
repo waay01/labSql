@@ -12,7 +12,7 @@ public:
     void execQueryUpdate(QString strQuery);
     void execQueryDelete(QString strQuery);
 
-    QStringList execQueryPRAGMA(QString strQuery);
+    QStringList execQueryPRAGMA(QString strTable);
 };
 
 #endif // DATABASEQUERY_H

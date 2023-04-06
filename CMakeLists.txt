@@ -19,14 +19,14 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        dialog.h
-        dialog.cpp
-        dialog.ui
         dialogupdate.h
         dialogupdate.cpp
         dialogupdate.ui
         databasequery.h
         databasequery.cpp
+        dialogbook.h
+        dialogbook.cpp
+        dialogbook.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

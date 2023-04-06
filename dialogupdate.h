@@ -18,6 +18,8 @@ public:
 
     QStringList getData();
 
+    void setName(QString name);
+
 private slots:
     void on_pushButton_clicked();
 

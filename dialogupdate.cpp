@@ -1,8 +1,6 @@
 #include "dialogupdate.h"
 #include "ui_dialogupdate.h"
 
-#include <QSql>
-#include <QSqlQuery>
 
 DialogUpdate::DialogUpdate(QWidget *parent) :
     QDialog(parent),
@@ -14,6 +12,10 @@ DialogUpdate::DialogUpdate(QWidget *parent) :
 DialogUpdate::~DialogUpdate()
 {
     delete ui;
+}
+
+void DialogUpdate::setName(QString name) {
+    ui->label->setText(name);
 }
 
 QStringList DialogUpdate::getData()

@@ -10,7 +10,7 @@ void databaseQuery::execQuery(QString strQuery) {
     db.close();
 }
 
-QStringList databaseQuery::execQueryPRAGMA(QString strQuery) {
+QStringList databaseQuery::execQueryPRAGMA(QString strTable) {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("lab.db");
     QSqlQuery query;
@@ -23,6 +23,7 @@ QStringList databaseQuery::execQueryPRAGMA(QString strQuery) {
         nameColumn += query.value(1).toStringList();
     }
     db.close();
+    return nameColumn;
 }
 
 //void databaseQuery::execQueryAdd(QString strQuery) {

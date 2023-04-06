@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "databaseQuery.h"
-#include "dialog.h"
+#include "dialogbook.h"
 #include "dialogupdate.h"
 
 
@@ -40,6 +40,8 @@ private slots:
     void slotDelete();
 
     void slotContexMenu(QPoint pos);
+    void on_pushButton_5_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
