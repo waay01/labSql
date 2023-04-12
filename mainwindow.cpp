@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "qtextdocument.h"
+#include "dialoginsert.h"
 #include <QFile>
 
 using namespace std;
@@ -26,27 +27,30 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    if (ui->comboBox->currentIndex() == 2) {
-        DialogUpdate dialogUpdate;
-        dialogUpdate.setName("Добавление");
-        dialogUpdate.setModal(true);
-        dialogUpdate.exec();
+    dialogInsert dialogInsert;
+    dialogInsert.setName("Добавление");
+    dialogInsert.setModal(true);
 
-        databaseQuery databaseQuery;
-        databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1]));
-    }
-
-    if (ui->comboBox->currentIndex() == 3) {
-        DialogBook dialogbook;
-        dialogbook.setName("Добавление");
-        dialogbook.setModal(true);
-        dialogbook.exec();
-
-        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
-            databaseQuery databaseQuery;
-            QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values (%1,%2,%3,%4,%5);";
-            databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4]));
-        }
+    databaseQuery databaseQuery;
+    switch (ui->comboBox->currentIndex()) {
+        case 1:
+            dialogInsert.getWindow(1);
+            dialogInsert.exec();
+            databaseQuery.execQuery(QString("insert into allDeliveries(id_book, count) values(%1,%2);").arg(dialogInsert.getData()[0], dialogInsert.getData()[1]));
+            break;
+        case 2:
+            dialogInsert.getWindow(2);
+            dialogInsert.exec();
+            databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogInsert.getData()[0], dialogInsert.getData()[1]));
+            break;
+        case 3:
+            dialogInsert.getWindow(3);
+            dialogInsert.exec();
+            if (dialogInsert.getData()[0] != "" && dialogInsert.getData()[1] != "" && dialogInsert.getData()[2] != "" && dialogInsert.getData()[3] != "" && dialogInsert.getData()[4] != "") {
+                QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values (%1,%2,%3,%4,%5);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData()[0], dialogInsert.getData()[1], dialogInsert.getData()[2], dialogInsert.getData()[3], dialogInsert.getData()[4]));
+            }
+            break;
     }
 }
 
@@ -154,7 +158,8 @@ void MainWindow::slotAdd() {
         dialogUpdate.exec();
 
         databaseQuery databaseQuery;
-        databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1]));
+        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "" )
+            databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1]));
     }
 
     if (ui->comboBox->currentIndex() == 3) {
@@ -166,7 +171,8 @@ void MainWindow::slotAdd() {
         if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
             databaseQuery databaseQuery;
             QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values (%1,%2,%3,%4,%5);";
-            databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4]));
+            if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "" )
+                databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4]));
         }
     }
 }
@@ -249,5 +255,16 @@ void MainWindow::on_pushButton_5_clicked()
 
 
     delete document;
+}
+
+
+void MainWindow::on_actionAdd_Table_triggered()
+{
+    addNameTable addNameTable;
+    addNameTable.setModal(true);
+    addNameTable.exec();
+
+    if (addNameTable.getName() != "")
+        ui->comboBox->addItem(addNameTable.getName());
 }
 

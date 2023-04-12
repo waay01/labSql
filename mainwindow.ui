@@ -10,8 +10,115 @@
     <height>630</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>SF Pro Display</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#comboBox {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton:hover {
+	background-color: #e0e0e0;
+}
+
+#pushButton_2 {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton_2:hover {
+	background-color: #e0e0e0;
+}
+
+#pushButton_3 {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton_3:hover {
+	background-color: #e0e0e0;
+}
+
+#pushButton_4 {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton_4:hover {
+	background-color: #e0e0e0;
+}
+
+#pushButton_5 {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton_5:hover {
+	background-color: #e0e0e0;
+}
+
+#pushButton_6 {
+	background-color: #f1f1f1;
+	border-radius: 4px;
+	border: 2px solid #969696;
+	display: inline-block;
+	cursor: pointer;
+	color: #2c2b2b;
+	font: 16px Bahnschrift;
+	padding: 2px 0px;
+}
+
+#pushButton_6:hover {
+	background-color: #e0e0e0;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -89,13 +196,26 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_4">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="text">
          <string>Обновить</string>
         </property>
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="text">
+         <string>Искать</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton_5">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="text">
          <string>Печать</string>
         </property>
@@ -120,81 +240,6 @@
       <attribute name="verticalHeaderVisible">
        <bool>true</bool>
       </attribute>
-      <row>
-       <property name="text">
-        <string>1</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>2</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>3</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>id</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>country</string>
-       </property>
-      </column>
-      <item row="0" column="0">
-       <property name="text">
-        <string>1</string>
-       </property>
-      </item>
-      <item row="0" column="1">
-       <property name="text">
-        <string>Alex</string>
-       </property>
-      </item>
-      <item row="0" column="2">
-       <property name="text">
-        <string>France</string>
-       </property>
-      </item>
-      <item row="1" column="0">
-       <property name="text">
-        <string>3</string>
-       </property>
-      </item>
-      <item row="1" column="1">
-       <property name="text">
-        <string>VLadislav</string>
-       </property>
-      </item>
-      <item row="1" column="2">
-       <property name="text">
-        <string>Russia</string>
-       </property>
-      </item>
-      <item row="2" column="0">
-       <property name="text">
-        <string>4</string>
-       </property>
-      </item>
-      <item row="2" column="1">
-       <property name="text">
-        <string>Donald</string>
-       </property>
-      </item>
-      <item row="2" column="2">
-       <property name="text">
-        <string>US</string>
-       </property>
-      </item>
      </widget>
     </item>
    </layout>
@@ -214,6 +259,7 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionClose"/>
+    <addaction name="actionAdd_Table"/>
    </widget>
    <addaction name="menuDatabase"/>
   </widget>
@@ -226,6 +272,11 @@
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionAdd_Table">
+   <property name="text">
+    <string>Add Table</string>
    </property>
   </action>
  </widget>

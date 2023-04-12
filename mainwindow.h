@@ -9,6 +9,7 @@
 #include "databaseQuery.h"
 #include "dialogbook.h"
 #include "dialogupdate.h"
+#include "addnametable.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -41,6 +42,8 @@ private slots:
 
     void slotContexMenu(QPoint pos);
     void on_pushButton_5_clicked();
+
+    void on_actionAdd_Table_triggered();
 
 private:
     Ui::MainWindow *ui;
