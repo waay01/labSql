@@ -23,8 +23,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;
@@ -34,8 +32,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;
@@ -49,8 +45,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;
@@ -64,8 +58,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;
@@ -79,8 +71,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;
@@ -94,8 +84,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;
@@ -109,8 +97,6 @@
 	background-color: #f1f1f1;
 	border-radius: 4px;
 	border: 2px solid #969696;
-	display: inline-block;
-	cursor: pointer;
 	color: #2c2b2b;
 	font: 16px Bahnschrift;
 	padding: 2px 0px;

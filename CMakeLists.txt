@@ -16,22 +16,21 @@ find_package(Qt6 REQUIRED COMPONENTS Sql)
 
 set(PROJECT_SOURCES
         main.cpp
+
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        dialogupdate.h
-        dialogupdate.cpp
-        dialogupdate.ui
+
         databasequery.h
         databasequery.cpp
-        dialogbook.h
-        dialogbook.cpp
-        dialogbook.ui
+
         addnametable.h
         addnametable.cpp
         addnametable.ui
 
-        dialoginsert.h dialoginsert.cpp dialoginsert.ui
+        dialoginsert.h
+        dialoginsert.cpp
+        dialoginsert.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

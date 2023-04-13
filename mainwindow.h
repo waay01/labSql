@@ -7,8 +7,6 @@
 #include <iostream>
 
 #include "databaseQuery.h"
-#include "dialogbook.h"
-#include "dialogupdate.h"
 #include "addnametable.h"
 
 

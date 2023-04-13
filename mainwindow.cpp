@@ -33,65 +33,118 @@ void MainWindow::on_pushButton_clicked()
 
     databaseQuery databaseQuery;
     switch (ui->comboBox->currentIndex()) {
+        case 0:
+            dialogInsert.getWindow(0);
+            dialogInsert.exec();
+            if (dialogInsert.getData(0)[0] != "") {
+                QString strQuery = "insert into action(NameAction) values(%1);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(0)[0]));
+            }
+            break;
+
         case 1:
             dialogInsert.getWindow(1);
             dialogInsert.exec();
-            databaseQuery.execQuery(QString("insert into allDeliveries(id_book, count) values(%1,%2);").arg(dialogInsert.getData()[0], dialogInsert.getData()[1]));
+            if (dialogInsert.getData(1)[0] != "" && dialogInsert.getData(1)[1] != "") {
+                QString strQuery = "insert into allDeliveries(id_book, count) values(%1,%2);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(1)[0], dialogInsert.getData(1)[1]));
+            }
             break;
+
         case 2:
             dialogInsert.getWindow(2);
             dialogInsert.exec();
-            databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogInsert.getData()[0], dialogInsert.getData()[1]));
+            if (dialogInsert.getData(2)[0] != "" && dialogInsert.getData(2)[1] != "") {
+                QString strQuery = "insert into author(fio, address) values(%1,%2);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(2)[0], dialogInsert.getData(2)[1]));
+            }
             break;
+
         case 3:
             dialogInsert.getWindow(3);
             dialogInsert.exec();
-            if (dialogInsert.getData()[0] != "" && dialogInsert.getData()[1] != "" && dialogInsert.getData()[2] != "" && dialogInsert.getData()[3] != "" && dialogInsert.getData()[4] != "") {
+            if (dialogInsert.getData(3)[0] != "" && dialogInsert.getData(3)[1] != "" && dialogInsert.getData(3)[2] != "" && dialogInsert.getData(3)[3] != "" && dialogInsert.getData(3)[4] != "") {
                 QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values (%1,%2,%3,%4,%5);";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData()[0], dialogInsert.getData()[1], dialogInsert.getData()[2], dialogInsert.getData()[3], dialogInsert.getData()[4]));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(3)[0], dialogInsert.getData(3)[1], dialogInsert.getData(3)[2], dialogInsert.getData(3)[3], dialogInsert.getData(3)[4]));
+            }
+            break;
+
+        case 4:
+            dialogInsert.getWindow(4);
+            dialogInsert.exec();
+            if (dialogInsert.getData(4)[0] != "" && dialogInsert.getData(4)[1] != "" && dialogInsert.getData(4)[2] != "") {
+                QString strQuery = "insert into logs(nameAction, date, nameTable) values (%1,%2,%3);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(4)[0], dialogInsert.getData(4)[1], dialogInsert.getData(4)[2]));
+            }
+            break;
+
+        case 5:
+            dialogInsert.getWindow(5);
+            dialogInsert.exec();
+            if (dialogInsert.getData(5)[0] != "" && dialogInsert.getData(5)[1] != "" && dialogInsert.getData(5)[2] != "" && dialogInsert.getData(5)[3] != "" && dialogInsert.getData(5)[4] != "" && dialogInsert.getData(5)[5] != "") {
+                QString strQuery = "insert into marketBook(date, id_action, id_staffMember, id_book, count, price) values (%1,%2,%3,%4,%5,%6);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(5)[0], dialogInsert.getData(5)[1], dialogInsert.getData(5)[2], dialogInsert.getData(5)[3], dialogInsert.getData(5)[4], dialogInsert.getData(5)[5]));
+            }
+            break;
+        case 6:
+            dialogInsert.getWindow(6);
+            dialogInsert.exec();
+            if (dialogInsert.getData(6)[0] != "" && dialogInsert.getData(6)[1] != "" && dialogInsert.getData(6)[2] != "") {
+                QString strQuery = "insert into staffMember(fio, numberPhone, inn) values (%1,%2,%3);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(6)[0], dialogInsert.getData(6)[1], dialogInsert.getData(6)[2]));
+            }
+            break;
+        case 7:
+            dialogInsert.getWindow(7);
+            dialogInsert.exec();
+            if (dialogInsert.getData(7)[0] != "") {
+                QString strQuery = "insert into typeStyle(nameStyle) values (%1);";
+                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(7)[0]));
             }
             break;
     }
 }
 
+/*Посмотреть 75-112 */
 void MainWindow::on_pushButton_2_clicked()
 {
-    if (ui->comboBox->currentIndex() == 2) {
-        DialogUpdate dialogUpdate;
-        dialogUpdate.setName("Редактирование");
-        dialogUpdate.setModal(true);
-        dialogUpdate.exec();
+//    if (ui->comboBox->currentIndex() == 2) {
+//        DialogUpdate dialogUpdate;
+//        dialogUpdate.setName("Редактирование");
+//        dialogUpdate.setModal(true);
+//        dialogUpdate.exec();
 
-        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "") {
-            databaseQuery databaseQuery;
-            databaseQuery.execQuery(QString("update author set fio = '%1', address = '%2' where id = %3").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1], QString::number(ui->tableWidget->currentItem()->text().toInt())));
-        }
-    }
-    else if (ui->comboBox->currentIndex() == 3) {
-        DialogBook dialogbook;
-        dialogbook.setName("Редактирование");
-        dialogbook.setModal(true);
-        dialogbook.exec();
+//        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "") {
+//            databaseQuery databaseQuery;
+//            databaseQuery.execQuery(QString("update author set fio = '%1', address = '%2' where id = %3").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1], QString::number(ui->tableWidget->currentItem()->text().toInt())));
+//        }
+//    }
+//    else if (ui->comboBox->currentIndex() == 3) {
+//        DialogBook dialogbook;
+//        dialogbook.setName("Редактирование");
+//        dialogbook.setModal(true);
+//        dialogbook.exec();
 
-        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
-            databaseQuery databaseQuery;
-            QString strQuery = "update book set name = '%1', id_author = '%2', id_typeStyle = '%3', year = '%4', countList = '%5' where id = %6";
-            databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4], QString::number(ui->tableWidget->currentItem()->text().toInt())));
-        }
-    }
+//        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
+//            databaseQuery databaseQuery;
+//            QString strQuery = "update book set name = '%1', id_author = '%2', id_typeStyle = '%3', year = '%4', countList = '%5' where id = %6";
+//            databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4], QString::number(ui->tableWidget->currentItem()->text().toInt())));
+//        }
+//    }
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    if (ui->comboBox->currentIndex() == 2) {
-        databaseQuery databaseQuery;
-        databaseQuery.execQuery(QString("delete from author where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
-    }
-    if (ui->comboBox->currentIndex() == 3) {
-        databaseQuery databaseQuery;
-        databaseQuery.execQuery(QString("delete from book where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
-    }
+//    if (ui->comboBox->currentIndex() == 2) {
+//        databaseQuery databaseQuery;
+//        databaseQuery.execQuery(QString("delete from author where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
+//    }
+//    if (ui->comboBox->currentIndex() == 3) {
+//        databaseQuery databaseQuery;
+//        databaseQuery.execQuery(QString("delete from book where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
+//    }
 }
+/*=======================================================*/
 
 void MainWindow::on_pushButton_4_clicked()
 {
@@ -132,6 +185,7 @@ void MainWindow::on_pushButton_4_clicked()
     }
 }
 
+/*Посмотреть 152-234 */
 void MainWindow::slotContexMenu(QPoint pos) {
     QMenu *menu = new QMenu(this);
 
@@ -151,56 +205,56 @@ void MainWindow::slotContexMenu(QPoint pos) {
 }
 
 void MainWindow::slotAdd() {
-    if (ui->comboBox->currentIndex() == 2) {
-        DialogUpdate dialogUpdate;
-        dialogUpdate.setName("Добавление");
-        dialogUpdate.setModal(true);
-        dialogUpdate.exec();
+//    if (ui->comboBox->currentIndex() == 2) {
+//        DialogUpdate dialogUpdate;
+//        dialogUpdate.setName("Добавление");
+//        dialogUpdate.setModal(true);
+//        dialogUpdate.exec();
 
-        databaseQuery databaseQuery;
-        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "" )
-            databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1]));
-    }
+//        databaseQuery databaseQuery;
+//        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "" )
+//            databaseQuery.execQuery(QString("insert into author(fio, address) values(%1,%2);").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1]));
+//    }
 
-    if (ui->comboBox->currentIndex() == 3) {
-        DialogBook dialogbook;
-        dialogbook.setName("Добавление");
-        dialogbook.setModal(true);
-        dialogbook.exec();
+//    if (ui->comboBox->currentIndex() == 3) {
+//        DialogBook dialogbook;
+//        dialogbook.setName("Добавление");
+//        dialogbook.setModal(true);
+//        dialogbook.exec();
 
-        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
-            databaseQuery databaseQuery;
-            QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values (%1,%2,%3,%4,%5);";
-            if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "" )
-                databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4]));
-        }
-    }
+//        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
+//            databaseQuery databaseQuery;
+//            QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values (%1,%2,%3,%4,%5);";
+//            if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "" )
+//                databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4]));
+//        }
+//    }
 }
 
 void MainWindow::slotEdit() {
-    if (ui->comboBox->currentIndex() == 2) {
-        DialogUpdate dialogUpdate;
-        dialogUpdate.setName("Редактирование");
-        dialogUpdate.setModal(true);
-        dialogUpdate.exec();
+//    if (ui->comboBox->currentIndex() == 2) {
+//        DialogUpdate dialogUpdate;
+//        dialogUpdate.setName("Редактирование");
+//        dialogUpdate.setModal(true);
+//        dialogUpdate.exec();
 
-        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "") {
-            databaseQuery databaseQuery;
-            databaseQuery.execQuery(QString("update author set fio = '%1', address = '%2' where id = %3").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1], QString::number(ui->tableWidget->currentItem()->text().toInt())));
-        }
-    }
-    else if (ui->comboBox->currentIndex() == 3) {
-        DialogBook dialogbook;
-        dialogbook.setName("Редактирование");
-        dialogbook.setModal(true);
-        dialogbook.exec();
+//        if (dialogUpdate.getData()[0] != "" && dialogUpdate.getData()[1] != "") {
+//            databaseQuery databaseQuery;
+//            databaseQuery.execQuery(QString("update author set fio = '%1', address = '%2' where id = %3").arg(dialogUpdate.getData()[0], dialogUpdate.getData()[1], QString::number(ui->tableWidget->currentItem()->text().toInt())));
+//        }
+//    }
+//    else if (ui->comboBox->currentIndex() == 3) {
+//        DialogBook dialogbook;
+//        dialogbook.setName("Редактирование");
+//        dialogbook.setModal(true);
+//        dialogbook.exec();
 
-        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
-            databaseQuery databaseQuery;
-            QString strQuery = "update book set name = '%1', id_author = '%2', id_typeStyle = '%3', year = '%4', countList = '%5' where id = %6";
-            databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4], QString::number(ui->tableWidget->currentItem()->text().toInt())));
-        }
-    }
+//        if (dialogbook.getData()[0] != "" && dialogbook.getData()[1] != "" && dialogbook.getData()[2] != "" && dialogbook.getData()[3] != "" && dialogbook.getData()[4] != "") {
+//            databaseQuery databaseQuery;
+//            QString strQuery = "update book set name = '%1', id_author = '%2', id_typeStyle = '%3', year = '%4', countList = '%5' where id = %6";
+//            databaseQuery.execQuery(QString(strQuery).arg(dialogbook.getData()[0], dialogbook.getData()[1], dialogbook.getData()[2], dialogbook.getData()[3], dialogbook.getData()[4], QString::number(ui->tableWidget->currentItem()->text().toInt())));
+//        }
+//    }
 }
 
 void MainWindow::slotDelete() {
@@ -213,6 +267,7 @@ void MainWindow::slotDelete() {
         databaseQuery.execQuery(QString("delete from book where id = %1").arg(ui->tableWidget->currentItem()->text().toInt()));
     }
 }
+/*==========================================================*/
 
 void MainWindow::on_pushButton_5_clicked()
 {

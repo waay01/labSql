@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
+    <width>310</width>
     <height>315</height>
    </rect>
   </property>
@@ -17,29 +17,10 @@
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="maximumSize">
-          <size>
-           <width>400</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Элемент: </string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -86,8 +67,14 @@
          </item>
         </layout>
        </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pushButton_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="maximumSize">
+          <size>
+           <width>400</width>
+           <height>100</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <family>Montserrat Light</family>
@@ -95,7 +82,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Выполнить</string>
+          <string>Элемент: </string>
          </property>
         </widget>
        </item>
@@ -172,19 +159,6 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="pushButton">
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выполнить</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_3">
@@ -201,36 +175,6 @@
           <string>Элемент: </string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Ф.И.О: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
        <item row="2" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -262,42 +206,40 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выполнить</string>
-         </property>
-        </widget>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Ф.И.О: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_4">
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="maximumSize">
-          <size>
-           <width>400</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Элемент: </string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
@@ -328,6 +270,25 @@
          </item>
         </layout>
        </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="maximumSize">
+          <size>
+           <width>400</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Montserrat Light</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Элемент: </string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
@@ -345,26 +306,6 @@
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_2"/>
-         </item>
-        </layout>
-       </item>
-       <item row="3" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLabel" name="label_12">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>id_typeStyle: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_3"/>
          </item>
         </layout>
        </item>
@@ -398,6 +339,26 @@
          </item>
         </layout>
        </item>
+       <item row="3" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>id_typeStyle: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_3"/>
+         </item>
+        </layout>
+       </item>
        <item row="5" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
@@ -428,23 +389,40 @@
          </item>
         </layout>
        </item>
-       <item row="6" column="0">
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выполнить</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_5">
       <layout class="QGridLayout" name="gridLayout_7">
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QLabel" name="label_16">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Название действия: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_18">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_15">
          <property name="maximumSize">
@@ -464,23 +442,23 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item row="3" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
          <item>
-          <widget class="QLabel" name="label_16">
+          <widget class="QLabel" name="label_18">
            <property name="font">
             <font>
              <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
+             <pointsize>14</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>Название действия: </string>
+            <string>Название таблицы: </string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_18">
+          <widget class="QLineEdit" name="lineEdit_10">
            <property name="font">
             <font>
              <family>Montserrat Light</family>
@@ -524,162 +502,10 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
-         <item>
-          <widget class="QLabel" name="label_18">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Название таблицы: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_10">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="4" column="0">
-        <widget class="QPushButton" name="pushButton_5">
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выполнить</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_6">
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="maximumSize">
-          <size>
-           <width>400</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Элемент: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_14">
-         <item>
-          <widget class="QLabel" name="label_20">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Дата: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_11">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_15">
-         <item>
-          <widget class="QLabel" name="label_21">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>id_action: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_6"/>
-         </item>
-        </layout>
-       </item>
-       <item row="3" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_16">
-         <item>
-          <widget class="QLabel" name="label_22">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>id_staffMember: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_5"/>
-         </item>
-        </layout>
-       </item>
-       <item row="4" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_17">
-         <item>
-          <widget class="QLabel" name="label_23">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>id_book: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_4"/>
-         </item>
-        </layout>
-       </item>
        <item row="5" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_18">
          <item>
@@ -707,6 +533,26 @@
             <string/>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <item>
+          <widget class="QLabel" name="label_22">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>id_staffMember: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_5"/>
          </item>
         </layout>
        </item>
@@ -740,8 +586,34 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
-        <widget class="QPushButton" name="pushButton_6">
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_15">
+         <item>
+          <widget class="QLabel" name="label_21">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>id_action: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_6"/>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_19">
+         <property name="maximumSize">
+          <size>
+           <width>400</width>
+           <height>100</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <family>Montserrat Light</family>
@@ -749,74 +621,64 @@
           </font>
          </property>
          <property name="text">
-          <string>Выполнить</string>
+          <string>Элемент: </string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
+          <widget class="QLabel" name="label_23">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>id_book: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_4"/>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <item>
+          <widget class="QLabel" name="label_20">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Дата: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_11">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_7">
       <layout class="QGridLayout" name="gridLayout_8">
-       <item row="1" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_13">
-         <item>
-          <widget class="QLabel" name="label_28">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Ф.И.О: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_12">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_21">
-         <item>
-          <widget class="QLabel" name="label_29">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>16</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Телефон: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_13">
-           <property name="font">
-            <font>
-             <family>Montserrat Light</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="3" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_22">
          <item>
@@ -847,18 +709,35 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
-        <widget class="QPushButton" name="pushButton_7">
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выполнить</string>
-         </property>
-        </widget>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <widget class="QLabel" name="label_28">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Ф.И.О: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_12">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_27">
@@ -878,6 +757,36 @@
           <string>Элемент: </string>
          </property>
         </widget>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_21">
+         <item>
+          <widget class="QLabel" name="label_29">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Телефон: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_13">
+           <property name="font">
+            <font>
+             <family>Montserrat Light</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -948,21 +857,21 @@
          </item>
         </layout>
        </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pushButton_8">
-         <property name="font">
-          <font>
-           <family>Montserrat Light</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выполнить</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="pushButton">
+     <property name="font">
+      <font>
+       <family>Montserrat Light</family>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Выполнить</string>
+     </property>
     </widget>
    </item>
   </layout>
