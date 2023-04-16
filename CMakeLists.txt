@@ -28,9 +28,9 @@ set(PROJECT_SOURCES
         addnametable.cpp
         addnametable.ui
 
-        dialoginsert.h
-        dialoginsert.cpp
-        dialoginsert.ui
+        dialog.h
+        dialog.cpp
+        dialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

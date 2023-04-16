@@ -1,27 +1,35 @@
-#include "dialoginsert.h"
-#include "ui_dialoginsert.h"
+#include "dialog.h"
+#include "ui_dialog.h"
 
-dialogInsert::dialogInsert(QWidget *parent) :
+dialog::dialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::dialogInsert)
+    ui(new Ui::dialog)
 {
     ui->setupUi(this);
 }
 
-dialogInsert::~dialogInsert()
+dialog::~dialog()
 {
     delete ui;
 }
 
-void dialogInsert::getWindow(int index) {
+void dialog::getWindow(int index) {
     ui->stackedWidget->setCurrentIndex(index);
 }
 
-void dialogInsert::setName(QString name) {
-    ui->label_4->setText(name + ':');
+void dialog::setName(QString name) {
+    ui->label->setText(name + ':');
 }
 
-QStringList dialogInsert::getData(int index)
+void generate(int index) {
+    switch(index) {
+        case 1:
+//            1
+            break;
+    }
+}
+
+QStringList dialog::getData(int index)
 {
     QStringList dataList = {};
 
@@ -30,7 +38,8 @@ QStringList dialogInsert::getData(int index)
             dataList += ui->lineEdit_6->text();
             break;
         case 1:
-//            dataList += ui->lineEdit->text(); comboBox
+            generate(1);
+            dataList += ui->comboBox->currentText();
             dataList += ui->lineEdit_2->text();
             break;
         case 2:
@@ -70,8 +79,7 @@ QStringList dialogInsert::getData(int index)
     return dataList;
 }
 
-void dialogInsert::on_pushButton_clicked()
+void dialog::on_pushButton_clicked()
 {
     close();
 }
-

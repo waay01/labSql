@@ -32,13 +32,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
-    void slotAdd();
-
-    void slotEdit();
-
-    void slotDelete();
-
     void slotContexMenu(QPoint pos);
+
     void on_pushButton_5_clicked();
 
     void on_actionAdd_Table_triggered();
