@@ -17,9 +17,13 @@ public:
 
     void getWindow(int index);
 
+    void sendData(int index, std::vector<QStringList> itemList);
+
     QStringList getData(int index);
 
     void setName(QString name);
+
+    bool transaction();
 
 private slots:
 

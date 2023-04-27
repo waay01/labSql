@@ -38,6 +38,8 @@ private slots:
 
     void on_actionAdd_Table_triggered();
 
+    void on_comboBox_activated(int index);
+
 private:
     Ui::MainWindow *ui;
 };

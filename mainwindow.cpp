@@ -13,9 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotAdd()));
-    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotEdit()));
-    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotDelete()));
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_pushButton_clicked()));
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_pushButton_2_clicked()));
+    connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_pushButton_3_clicked()));
     connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContexMenu(QPoint)));
 
 }
@@ -27,6 +27,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    // для comboBox
+    std::vector<QStringList> itemList;
+    QStringList tmp;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    QSqlQuery query;
+    db.setDatabaseName("lab.db");
+    //
+
+
     dialog dialogInsert;
     dialogInsert.setName("Добавление");
     dialogInsert.setModal(true);
@@ -43,6 +53,16 @@ void MainWindow::on_pushButton_clicked()
             break;
 
         case 1:
+            db.open();
+            query.exec(QString("select id from marketBook"));
+            while(query.next())
+                tmp += query.value(0).toString();
+            db.close();
+            itemList.emplace_back(tmp);
+            dialogInsert.sendData(ui->comboBox->currentIndex(), itemList);
+            itemList.clear();
+            tmp = {};
+
             dialogInsert.getWindow(1);
             dialogInsert.exec();
             if (dialogInsert.getData(1)[0] != "" && dialogInsert.getData(1)[1] != "") {
@@ -61,6 +81,25 @@ void MainWindow::on_pushButton_clicked()
             break;
 
         case 3:
+            db.open();
+            query.exec(QString("select id from author"));
+            while(query.next())
+                tmp += query.value(0).toString();
+            db.close();
+            itemList.emplace_back(tmp);
+            tmp = {};
+
+            db.open();
+            query.exec(QString("select id from typeStyle"));
+            while(query.next())
+                tmp += query.value(0).toString();
+            db.close();
+            itemList.emplace_back(tmp);
+            tmp = {};
+
+            dialogInsert.sendData(ui->comboBox->currentIndex(), itemList);
+            itemList.clear();
+
             dialogInsert.getWindow(3);
             dialogInsert.exec();
             if (dialogInsert.getData(3)[0] != "" && dialogInsert.getData(3)[1] != "" && dialogInsert.getData(3)[2] != "" && dialogInsert.getData(3)[3] != "" && dialogInsert.getData(3)[4] != "") {
@@ -79,6 +118,35 @@ void MainWindow::on_pushButton_clicked()
             break;
 
         case 5:
+            db.open();
+            query.exec(QString("select id from action"));
+            while(query.next())
+                tmp += query.value(0).toString();
+            db.close();
+            itemList.emplace_back(tmp);
+            tmp = {};
+
+
+            db.open();
+            query.exec(QString("select id from staffMember"));
+            while(query.next())
+                tmp += query.value(0).toString();
+            db.close();
+            itemList.emplace_back(tmp);
+            tmp = {};
+
+            db.open();
+            query.exec(QString("select id from book"));
+            while(query.next())
+                tmp += query.value(0).toString();
+            db.close();
+            itemList.emplace_back(tmp);
+            tmp = {};
+
+            dialogInsert.sendData(ui->comboBox->currentIndex(), itemList);
+            itemList.clear();
+
+
             dialogInsert.getWindow(5);
             dialogInsert.exec();
             if (dialogInsert.getData(5)[0] != "" && dialogInsert.getData(5)[1] != "" && dialogInsert.getData(5)[2] != "" && dialogInsert.getData(5)[3] != "" && dialogInsert.getData(5)[4] != "" && dialogInsert.getData(5)[5] != "") {
@@ -109,81 +177,81 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    dialog dialogInsert;
-    dialogInsert.setName("Редактирование");
-    dialogInsert.setModal(true);
+    dialog dialogUpdate;
+    dialogUpdate.setName("Редактирование");
+    dialogUpdate.setModal(true);
 
     databaseQuery databaseQuery;
     switch (ui->comboBox->currentIndex()) {
         case 0:
-            dialogInsert.getWindow(0);
-            dialogInsert.exec();
-            if (dialogInsert.getData(0)[0] != "") {
+            dialogUpdate.getWindow(0);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(0)[0] != "") {
                 QString strQuery = "update action set NameAction = '%1' where id = %2;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(0)[0], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(0)[0], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 1:
-            dialogInsert.getWindow(1);
-            dialogInsert.exec();
-            if (dialogInsert.getData(1)[0] != "" && dialogInsert.getData(1)[1] != "") {
+            dialogUpdate.getWindow(1);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(1)[0] != "" && dialogUpdate.getData(1)[1] != "") {
                 QString strQuery = "update allDeliveries set id_book = %1, count = %2 where id %3;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(1)[0], dialogInsert.getData(1)[1], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(1)[0], dialogUpdate.getData(1)[1], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 2:
-            dialogInsert.getWindow(2);
-            dialogInsert.exec();
-            if (dialogInsert.getData(2)[0] != "" && dialogInsert.getData(2)[1] != "") {
+            dialogUpdate.getWindow(2);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(2)[0] != "" && dialogUpdate.getData(2)[1] != "") {
                 QString strQuery = "update author set fio = '%1', address = '%2' where id = %3;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(2)[0], dialogInsert.getData(2)[1], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(2)[0], dialogUpdate.getData(2)[1], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 3:
-            dialogInsert.getWindow(3);
-            dialogInsert.exec();
-            if (dialogInsert.getData(3)[0] != "" && dialogInsert.getData(3)[1] != "" && dialogInsert.getData(3)[2] != "" && dialogInsert.getData(3)[3] != "" && dialogInsert.getData(3)[4] != "") {
+            dialogUpdate.getWindow(3);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(3)[0] != "" && dialogUpdate.getData(3)[1] != "" && dialogUpdate.getData(3)[2] != "" && dialogUpdate.getData(3)[3] != "" && dialogUpdate.getData(3)[4] != "") {
                 QString strQuery = "update book set name = '%1', id_author = %2, id_typeStyle = %3, yea = %4, countList = %5 where id = %6";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(3)[0], dialogInsert.getData(3)[1], dialogInsert.getData(3)[2], dialogInsert.getData(3)[3], dialogInsert.getData(3)[4], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(3)[0], dialogUpdate.getData(3)[1], dialogUpdate.getData(3)[2], dialogUpdate.getData(3)[3], dialogUpdate.getData(3)[4], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 4:
-            dialogInsert.getWindow(4);
-            dialogInsert.exec();
-            if (dialogInsert.getData(4)[0] != "" && dialogInsert.getData(4)[1] != "" && dialogInsert.getData(4)[2] != "") {
+            dialogUpdate.getWindow(4);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(4)[0] != "" && dialogUpdate.getData(4)[1] != "" && dialogUpdate.getData(4)[2] != "") {
                 QString strQuery = "update logs set nameAction = '%1', date = '%2', nameTable = '%3' where id = %4";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(4)[0], dialogInsert.getData(4)[1], dialogInsert.getData(4)[2], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(4)[0], dialogUpdate.getData(4)[1], dialogUpdate.getData(4)[2], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 5:
-            dialogInsert.getWindow(5);
-            dialogInsert.exec();
-            if (dialogInsert.getData(5)[0] != "" && dialogInsert.getData(5)[1] != "" && dialogInsert.getData(5)[2] != "" && dialogInsert.getData(5)[3] != "" && dialogInsert.getData(5)[4] != "" && dialogInsert.getData(5)[5] != "") {
+            dialogUpdate.getWindow(5);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(5)[0] != "" && dialogUpdate.getData(5)[1] != "" && dialogUpdate.getData(5)[2] != "" && dialogUpdate.getData(5)[3] != "" && dialogUpdate.getData(5)[4] != "" && dialogUpdate.getData(5)[5] != "") {
                 QString strQuery = "update marketBook set date = '%1', id_action = %2, id_staffMember = %3, id_book = %4, count = %5, price = %6 where id = %7";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(5)[0], dialogInsert.getData(5)[1], dialogInsert.getData(5)[2], dialogInsert.getData(5)[3], dialogInsert.getData(5)[4], dialogInsert.getData(5)[5], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(5)[0], dialogUpdate.getData(5)[1], dialogUpdate.getData(5)[2], dialogUpdate.getData(5)[3], dialogUpdate.getData(5)[4], dialogUpdate.getData(5)[5], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 6:
-            dialogInsert.getWindow(6);
-            dialogInsert.exec();
-            if (dialogInsert.getData(6)[0] != "" && dialogInsert.getData(6)[1] != "" && dialogInsert.getData(6)[2] != "") {
+            dialogUpdate.getWindow(6);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(6)[0] != "" && dialogUpdate.getData(6)[1] != "" && dialogUpdate.getData(6)[2] != "") {
                 QString strQuery = "update staffMember set fio = '%1', numberPhone = %2, inn = %3 where id = %4";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(6)[0], dialogInsert.getData(6)[1], dialogInsert.getData(6)[2], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(6)[0], dialogUpdate.getData(6)[1], dialogUpdate.getData(6)[2], ui->tableWidget->currentItem()->text()));
             }
             break;
 
         case 7:
-            dialogInsert.getWindow(7);
-            dialogInsert.exec();
-            if (dialogInsert.getData(7)[0] != "") {
+            dialogUpdate.getWindow(7);
+            dialogUpdate.exec();
+            if (dialogUpdate.getData(7)[0] != "") {
                 QString strQuery = "update typeStyle set nameStyle = '%1' where id = %2";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(7)[0], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(7)[0], ui->tableWidget->currentItem()->text()));
             }
             break;
     }
@@ -346,3 +414,19 @@ void MainWindow::on_actionAdd_Table_triggered()
     if (addNameTable.getName() != "")
         ui->comboBox->addItem(addNameTable.getName());
 }
+
+void MainWindow::on_comboBox_activated(int index)
+{
+    on_pushButton_4_clicked();
+    if (index == 8) {
+        ui->pushButton->setEnabled(false);
+        ui->pushButton_2->setEnabled(false);
+        ui->pushButton_3->setEnabled(false);
+    }
+    else {
+        ui->pushButton->setEnabled(true);
+        ui->pushButton_2->setEnabled(true);
+        ui->pushButton_3->setEnabled(true);
+    }
+}
+
