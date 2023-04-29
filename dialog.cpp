@@ -8,6 +8,7 @@ dialog::dialog(QWidget *parent) :
     ui(new Ui::dialog)
 {
     ui->setupUi(this);
+    status = false;
 }
 
 dialog::~dialog()
@@ -87,16 +88,16 @@ QStringList dialog::getData(int index) {
             break;
     }
 
-//    qDebug() << "1-" << status;
-//    if (!status)
-//        return {""};
-
-//    status = false;
     return dataList;
+}
+
+bool dialog::transaction() {
+    return status;
 }
 
 void dialog::on_pushButton_clicked()
 {
     status = true;
+    transaction();
     close();
 }

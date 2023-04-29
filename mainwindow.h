@@ -40,6 +40,8 @@ private slots:
 
     void on_comboBox_activated(int index);
 
+    void on_pushButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

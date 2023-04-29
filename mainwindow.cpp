@@ -3,8 +3,11 @@
 #include "qtextdocument.h"
 #include "dialog.h"
 #include <QFile>
+#include <QMessageBox>
 
 using namespace std;
+
+map<int, int> st;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+int rowIndex(int row) {
+    return st[row];
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -46,7 +53,7 @@ void MainWindow::on_pushButton_clicked()
         case 0:
             dialogInsert.getWindow(0);
             dialogInsert.exec();
-            if (dialogInsert.getData(0)[0] != "") {
+            if (dialogInsert.getData(0)[0] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into action(NameAction) values('%1');";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(0)[0]));
             }
@@ -65,7 +72,7 @@ void MainWindow::on_pushButton_clicked()
 
             dialogInsert.getWindow(1);
             dialogInsert.exec();
-            if (dialogInsert.getData(1)[0] != "" && dialogInsert.getData(1)[1] != "") {
+            if (dialogInsert.getData(1)[0] != "" && dialogInsert.getData(1)[1] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into allDeliveries(id_book, count) values(%1,%2);";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(1)[0], dialogInsert.getData(1)[1]));
             }
@@ -74,7 +81,7 @@ void MainWindow::on_pushButton_clicked()
         case 2:
             dialogInsert.getWindow(2);
             dialogInsert.exec();
-            if (dialogInsert.getData(2)[0] != "" && dialogInsert.getData(2)[1] != "") {
+            if (dialogInsert.getData(2)[0] != "" && dialogInsert.getData(2)[1] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into author(fio, address) values('%1','%2');";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(2)[0], dialogInsert.getData(2)[1]));
             }
@@ -102,7 +109,7 @@ void MainWindow::on_pushButton_clicked()
 
             dialogInsert.getWindow(3);
             dialogInsert.exec();
-            if (dialogInsert.getData(3)[0] != "" && dialogInsert.getData(3)[1] != "" && dialogInsert.getData(3)[2] != "" && dialogInsert.getData(3)[3] != "" && dialogInsert.getData(3)[4] != "") {
+            if (dialogInsert.getData(3)[0] != "" && dialogInsert.getData(3)[1] != "" && dialogInsert.getData(3)[2] != "" && dialogInsert.getData(3)[3] != "" && dialogInsert.getData(3)[4] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values ('%1',%2,%3,%4,%5);";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(3)[0], dialogInsert.getData(3)[1], dialogInsert.getData(3)[2], dialogInsert.getData(3)[3], dialogInsert.getData(3)[4]));
             }
@@ -111,7 +118,7 @@ void MainWindow::on_pushButton_clicked()
         case 4:
             dialogInsert.getWindow(4);
             dialogInsert.exec();
-            if (dialogInsert.getData(4)[0] != "" && dialogInsert.getData(4)[1] != "" && dialogInsert.getData(4)[2] != "") {
+            if (dialogInsert.getData(4)[0] != "" && dialogInsert.getData(4)[1] != "" && dialogInsert.getData(4)[2] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into logs(nameAction, date, nameTable) values ('%1','%2','%3');";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(4)[0], dialogInsert.getData(4)[1], dialogInsert.getData(4)[2]));
             }
@@ -149,7 +156,7 @@ void MainWindow::on_pushButton_clicked()
 
             dialogInsert.getWindow(5);
             dialogInsert.exec();
-            if (dialogInsert.getData(5)[0] != "" && dialogInsert.getData(5)[1] != "" && dialogInsert.getData(5)[2] != "" && dialogInsert.getData(5)[3] != "" && dialogInsert.getData(5)[4] != "" && dialogInsert.getData(5)[5] != "") {
+            if (dialogInsert.getData(5)[0] != "" && dialogInsert.getData(5)[1] != "" && dialogInsert.getData(5)[2] != "" && dialogInsert.getData(5)[3] != "" && dialogInsert.getData(5)[4] != "" && dialogInsert.getData(5)[5] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into marketBook(date, id_action, id_staffMember, id_book, count, price) values ('%1',%2,%3,%4,%5,%6);";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(5)[0], dialogInsert.getData(5)[1], dialogInsert.getData(5)[2], dialogInsert.getData(5)[3], dialogInsert.getData(5)[4], dialogInsert.getData(5)[5]));
             }
@@ -158,7 +165,7 @@ void MainWindow::on_pushButton_clicked()
         case 6:
             dialogInsert.getWindow(6);
             dialogInsert.exec();
-            if (dialogInsert.getData(6)[0] != "" && dialogInsert.getData(6)[1] != "" && dialogInsert.getData(6)[2] != "") {
+            if (dialogInsert.getData(6)[0] != "" && dialogInsert.getData(6)[1] != "" && dialogInsert.getData(6)[2] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into staffMember(fio, numberPhone, inn) values ('%1',%2,%3);";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(6)[0], dialogInsert.getData(6)[1], dialogInsert.getData(6)[2]));
             }
@@ -167,7 +174,7 @@ void MainWindow::on_pushButton_clicked()
         case 7:
             dialogInsert.getWindow(7);
             dialogInsert.exec();
-            if (dialogInsert.getData(7)[0] != "") {
+            if (dialogInsert.getData(7)[0] != "" && dialogInsert.transaction()) {
                 QString strQuery = "insert into typeStyle(nameStyle) values ('%1');";
                 databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(7)[0]));
             }
@@ -186,72 +193,72 @@ void MainWindow::on_pushButton_2_clicked()
         case 0:
             dialogUpdate.getWindow(0);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(0)[0] != "") {
+            if (dialogUpdate.getData(0)[0] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update action set NameAction = '%1' where id = %2;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(0)[0], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(0)[0], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 1:
             dialogUpdate.getWindow(1);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(1)[0] != "" && dialogUpdate.getData(1)[1] != "") {
+            if (dialogUpdate.getData(1)[0] != "" && dialogUpdate.getData(1)[1] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update allDeliveries set id_book = %1, count = %2 where id %3;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(1)[0], dialogUpdate.getData(1)[1], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(1)[0], dialogUpdate.getData(1)[1], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 2:
             dialogUpdate.getWindow(2);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(2)[0] != "" && dialogUpdate.getData(2)[1] != "") {
+            if (dialogUpdate.getData(2)[0] != "" && dialogUpdate.getData(2)[1] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update author set fio = '%1', address = '%2' where id = %3;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(2)[0], dialogUpdate.getData(2)[1], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(2)[0], dialogUpdate.getData(2)[1], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 3:
             dialogUpdate.getWindow(3);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(3)[0] != "" && dialogUpdate.getData(3)[1] != "" && dialogUpdate.getData(3)[2] != "" && dialogUpdate.getData(3)[3] != "" && dialogUpdate.getData(3)[4] != "") {
+            if (dialogUpdate.getData(3)[0] != "" && dialogUpdate.getData(3)[1] != "" && dialogUpdate.getData(3)[2] != "" && dialogUpdate.getData(3)[3] != "" && dialogUpdate.getData(3)[4] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update book set name = '%1', id_author = %2, id_typeStyle = %3, yea = %4, countList = %5 where id = %6";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(3)[0], dialogUpdate.getData(3)[1], dialogUpdate.getData(3)[2], dialogUpdate.getData(3)[3], dialogUpdate.getData(3)[4], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(3)[0], dialogUpdate.getData(3)[1], dialogUpdate.getData(3)[2], dialogUpdate.getData(3)[3], dialogUpdate.getData(3)[4], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 4:
             dialogUpdate.getWindow(4);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(4)[0] != "" && dialogUpdate.getData(4)[1] != "" && dialogUpdate.getData(4)[2] != "") {
+            if (dialogUpdate.getData(4)[0] != "" && dialogUpdate.getData(4)[1] != "" && dialogUpdate.getData(4)[2] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update logs set nameAction = '%1', date = '%2', nameTable = '%3' where id = %4";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(4)[0], dialogUpdate.getData(4)[1], dialogUpdate.getData(4)[2], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(4)[0], dialogUpdate.getData(4)[1], dialogUpdate.getData(4)[2], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 5:
             dialogUpdate.getWindow(5);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(5)[0] != "" && dialogUpdate.getData(5)[1] != "" && dialogUpdate.getData(5)[2] != "" && dialogUpdate.getData(5)[3] != "" && dialogUpdate.getData(5)[4] != "" && dialogUpdate.getData(5)[5] != "") {
+            if (dialogUpdate.getData(5)[0] != "" && dialogUpdate.getData(5)[1] != "" && dialogUpdate.getData(5)[2] != "" && dialogUpdate.getData(5)[3] != "" && dialogUpdate.getData(5)[4] != "" && dialogUpdate.getData(5)[5] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update marketBook set date = '%1', id_action = %2, id_staffMember = %3, id_book = %4, count = %5, price = %6 where id = %7";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(5)[0], dialogUpdate.getData(5)[1], dialogUpdate.getData(5)[2], dialogUpdate.getData(5)[3], dialogUpdate.getData(5)[4], dialogUpdate.getData(5)[5], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(5)[0], dialogUpdate.getData(5)[1], dialogUpdate.getData(5)[2], dialogUpdate.getData(5)[3], dialogUpdate.getData(5)[4], dialogUpdate.getData(5)[5], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 6:
             dialogUpdate.getWindow(6);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(6)[0] != "" && dialogUpdate.getData(6)[1] != "" && dialogUpdate.getData(6)[2] != "") {
+            if (dialogUpdate.getData(6)[0] != "" && dialogUpdate.getData(6)[1] != "" && dialogUpdate.getData(6)[2] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update staffMember set fio = '%1', numberPhone = %2, inn = %3 where id = %4";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(6)[0], dialogUpdate.getData(6)[1], dialogUpdate.getData(6)[2], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(6)[0], dialogUpdate.getData(6)[1], dialogUpdate.getData(6)[2], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
 
         case 7:
             dialogUpdate.getWindow(7);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(7)[0] != "") {
+            if (dialogUpdate.getData(7)[0] != "" && dialogUpdate.transaction()) {
                 QString strQuery = "update typeStyle set nameStyle = '%1' where id = %2";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(7)[0], ui->tableWidget->currentItem()->text()));
+                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(7)[0], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             }
             break;
     }
@@ -264,42 +271,42 @@ void MainWindow::on_pushButton_3_clicked()
     switch (ui->comboBox->currentIndex()) {
         case 0:
             strQuery = "delete from action where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 1:
             strQuery = "delete from allDeliveries where id %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 2:
             strQuery = "delete from author where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 3:
             strQuery = "delete from book where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 4:
             strQuery = "delete from logs where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 5:
             strQuery = "delete from marketBook where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 6:
             strQuery = "delete from staffMember where id = %1";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
 
         case 7:
             strQuery = "delete from typeStyle where id = %1";
-            databaseQuery.execQuery(QString(strQuery).arg(ui->tableWidget->currentItem()->text()));
+            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
             break;
     }
 
@@ -327,6 +334,14 @@ void MainWindow::on_pushButton_4_clicked()
             itemList += query.value(i).toString();
         ++countRow;
     }
+
+    int i = 1;
+    query.exec(QString("select * from %1").arg(strTable));
+    while(query.next()) {
+        st[i] = query.value(0).toInt();
+        ++i;
+    }
+    qDebug() << st;
 
     db.close();
 
@@ -403,6 +418,8 @@ void MainWindow::on_pushButton_5_clicked()
 
 
     delete document;
+
+   QMessageBox::about(this, "Отчет", "Формирование отчета выполнено успешно");
 }
 
 void MainWindow::on_actionAdd_Table_triggered()
@@ -420,13 +437,28 @@ void MainWindow::on_comboBox_activated(int index)
     on_pushButton_4_clicked();
     if (index == 8) {
         ui->pushButton->setEnabled(false);
+        ui->pushButton->setStyleSheet("background-color: #d9d9d9;");
         ui->pushButton_2->setEnabled(false);
+        ui->pushButton_2->setStyleSheet("background-color: #d9d9d9;");
         ui->pushButton_3->setEnabled(false);
+        ui->pushButton_3->setStyleSheet("background-color: #d9d9d9;");
     }
     else {
         ui->pushButton->setEnabled(true);
+        ui->pushButton->setStyleSheet("background-color: #f1f1f1;"
+                                      "#pushButton:hover {background-color: #e0e0e0;}");
         ui->pushButton_2->setEnabled(true);
+        ui->pushButton_2->setStyleSheet("background-color: #f1f1f1;"
+                                        "#pushButton_2:hover {background-color: #e0e0e0;}");
         ui->pushButton_3->setEnabled(true);
+        ui->pushButton_3->setStyleSheet("background-color: #f1f1f1;"
+                                        "#pushButton_3:hover {background-color: #e0e0e0;}");
     }
+}
+
+
+void MainWindow::on_pushButton_6_clicked()
+{
+
 }
 
