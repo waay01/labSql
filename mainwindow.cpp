@@ -8,6 +8,7 @@
 using namespace std;
 
 map<int, int> st;
+QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_pushButton_3_clicked()));
     connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContexMenu(QPoint)));
 
+    on_pushButton_4_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -34,282 +36,267 @@ int rowIndex(int row) {
 
 void MainWindow::on_pushButton_clicked()
 {
-    // для comboBox
-    std::vector<QStringList> itemList;
-    QStringList tmp;
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QSqlQuery query;
     db.setDatabaseName("lab.db");
-    //
-
+    databaseQuery databaseQuery;
 
     dialog dialogInsert;
     dialogInsert.setName("Добавление");
     dialogInsert.setModal(true);
 
-    databaseQuery databaseQuery;
-    switch (ui->comboBox->currentIndex()) {
-        case 0:
+    if (!db.isOpen())
+        db.open();
+
+    const int currentIndex = ui->comboBox->currentIndex();
+    switch (currentIndex) {
+        case 0: {
             dialogInsert.getWindow(0);
             dialogInsert.exec();
-            if (dialogInsert.getData(0)[0] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(0);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into action(NameAction) values('%1');";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(0)[0]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0]));
             }
             break;
+        }
 
-        case 1:
-            db.open();
-            query.exec(QString("select id from marketBook"));
+        case 1: {
+            QStringList marketBookIDs;
+
+            QSqlQuery query("select id from marketBook", db);
             while(query.next())
-                tmp += query.value(0).toString();
-            db.close();
-            itemList.emplace_back(tmp);
-            dialogInsert.sendData(ui->comboBox->currentIndex(), itemList);
-            itemList.clear();
-            tmp = {};
+                marketBookIDs += query.value(0).toString();
 
+            dialogInsert.sendData(currentIndex, { marketBookIDs });
             dialogInsert.getWindow(1);
             dialogInsert.exec();
-            if (dialogInsert.getData(1)[0] != "" && dialogInsert.getData(1)[1] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(1);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into allDeliveries(id_book, count) values(%1,%2);";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(1)[0], dialogInsert.getData(1)[1]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1]));
             }
             break;
+        }
 
-        case 2:
+        case 2: {
             dialogInsert.getWindow(2);
             dialogInsert.exec();
-            if (dialogInsert.getData(2)[0] != "" && dialogInsert.getData(2)[1] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(2);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into author(fio, address) values('%1','%2');";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(2)[0], dialogInsert.getData(2)[1]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1]));
             }
             break;
+        }
 
-        case 3:
-            db.open();
-            query.exec(QString("select id from author"));
-            while(query.next())
-                tmp += query.value(0).toString();
-            db.close();
-            itemList.emplace_back(tmp);
-            tmp = {};
+        case 3: {
+            QStringList authorIDs, typeStyleIDs;
+            QVector<QStringList> itemList;
 
-            db.open();
-            query.exec(QString("select id from typeStyle"));
-            while(query.next())
-                tmp += query.value(0).toString();
-            db.close();
-            itemList.emplace_back(tmp);
-            tmp = {};
+            QSqlQuery queryAuthor("select id from author");
+            while(queryAuthor.next())
+                authorIDs += queryAuthor.value(0).toString();
+            itemList.emplace_back(authorIDs);
 
-            dialogInsert.sendData(ui->comboBox->currentIndex(), itemList);
-            itemList.clear();
+            QSqlQuery queryTypeStyle("select id from typeStyle");
+            while(queryTypeStyle.next())
+                typeStyleIDs += queryTypeStyle.value(0).toString();
+            itemList.emplace_back(typeStyleIDs);
 
+            dialogInsert.sendData(currentIndex, itemList);
             dialogInsert.getWindow(3);
             dialogInsert.exec();
-            if (dialogInsert.getData(3)[0] != "" && dialogInsert.getData(3)[1] != "" && dialogInsert.getData(3)[2] != "" && dialogInsert.getData(3)[3] != "" && dialogInsert.getData(3)[4] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(3);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into book(name, id_author, id_typeStyle, year, countList) values ('%1',%2,%3,%4,%5);";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(3)[0], dialogInsert.getData(3)[1], dialogInsert.getData(3)[2], dialogInsert.getData(3)[3], dialogInsert.getData(3)[4]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2], data[3], data[4]));
             }
             break;
+        }
 
-        case 4:
+        case 4: {
             dialogInsert.getWindow(4);
             dialogInsert.exec();
-            if (dialogInsert.getData(4)[0] != "" && dialogInsert.getData(4)[1] != "" && dialogInsert.getData(4)[2] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(4);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into logs(nameAction, date, nameTable) values ('%1','%2','%3');";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(4)[0], dialogInsert.getData(4)[1], dialogInsert.getData(4)[2]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2]));
             }
             break;
+        }
 
-        case 5:
-            db.open();
-            query.exec(QString("select id from action"));
-            while(query.next())
-                tmp += query.value(0).toString();
-            db.close();
-            itemList.emplace_back(tmp);
-            tmp = {};
+        case 5: {
+            QStringList actionIDs, staffMemberIDs, bookIDs;
+            QVector<QStringList> itemList;
 
+            QSqlQuery queryAction("select id from action");
+            while(queryAction.next())
+                actionIDs += queryAction.value(0).toString();
+            itemList.emplace_back(actionIDs);
 
-            db.open();
-            query.exec(QString("select id from staffMember"));
-            while(query.next())
-                tmp += query.value(0).toString();
-            db.close();
-            itemList.emplace_back(tmp);
-            tmp = {};
+            QSqlQuery querystaffMember("select id from staffMember");
+            while(querystaffMember.next())
+                staffMemberIDs += querystaffMember.value(0).toString();
+            itemList.emplace_back(staffMemberIDs);
 
-            db.open();
-            query.exec(QString("select id from book"));
-            while(query.next())
-                tmp += query.value(0).toString();
-            db.close();
-            itemList.emplace_back(tmp);
-            tmp = {};
+            QSqlQuery queryBookIDs("select id from book");
+            while(queryBookIDs.next())
+                bookIDs += queryBookIDs.value(0).toString();
+            itemList.emplace_back(bookIDs);
 
-            dialogInsert.sendData(ui->comboBox->currentIndex(), itemList);
-            itemList.clear();
-
-
+            dialogInsert.sendData(currentIndex, itemList);
             dialogInsert.getWindow(5);
             dialogInsert.exec();
-            if (dialogInsert.getData(5)[0] != "" && dialogInsert.getData(5)[1] != "" && dialogInsert.getData(5)[2] != "" && dialogInsert.getData(5)[3] != "" && dialogInsert.getData(5)[4] != "" && dialogInsert.getData(5)[5] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(5);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into marketBook(date, id_action, id_staffMember, id_book, count, price) values ('%1',%2,%3,%4,%5,%6);";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(5)[0], dialogInsert.getData(5)[1], dialogInsert.getData(5)[2], dialogInsert.getData(5)[3], dialogInsert.getData(5)[4], dialogInsert.getData(5)[5]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2], data[3], data[4], data[5]));
             }
             break;
+        }
 
-        case 6:
+        case 6: {
             dialogInsert.getWindow(6);
             dialogInsert.exec();
-            if (dialogInsert.getData(6)[0] != "" && dialogInsert.getData(6)[1] != "" && dialogInsert.getData(6)[2] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(6);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into staffMember(fio, numberPhone, inn) values ('%1',%2,%3);";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(6)[0], dialogInsert.getData(6)[1], dialogInsert.getData(6)[2]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2]));
             }
             break;
+        }
 
-        case 7:
+        case 7: {
             dialogInsert.getWindow(7);
             dialogInsert.exec();
-            if (dialogInsert.getData(7)[0] != "" && dialogInsert.transaction()) {
+            const QStringList& data = dialogInsert.getData(7);
+            if (dialogInsert.transaction() && !data.contains("")) {
                 QString strQuery = "insert into typeStyle(nameStyle) values ('%1');";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogInsert.getData(7)[0]));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0]));
             }
             break;
+        }
     }
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    db.setDatabaseName("lab.db");
+    databaseQuery databaseQuery;
+
     dialog dialogUpdate;
     dialogUpdate.setName("Редактирование");
     dialogUpdate.setModal(true);
 
-    databaseQuery databaseQuery;
-    switch (ui->comboBox->currentIndex()) {
-        case 0:
+    if (!db.isOpen())
+        db.open();
+
+    const int currentIndex = ui->comboBox->currentIndex(), currentRow = ui->tableWidget->currentItem()->row()+1;
+    switch (currentIndex) {
+        case 0: {
             dialogUpdate.getWindow(0);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(0)[0] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(0);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update action set NameAction = '%1' where id = %2;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(0)[0], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 1:
+        case 1: {
             dialogUpdate.getWindow(1);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(1)[0] != "" && dialogUpdate.getData(1)[1] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(1);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update allDeliveries set id_book = %1, count = %2 where id %3;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(1)[0], dialogUpdate.getData(1)[1], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 2:
+        case 2: {
             dialogUpdate.getWindow(2);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(2)[0] != "" && dialogUpdate.getData(2)[1] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(2);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update author set fio = '%1', address = '%2' where id = %3;";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(2)[0], dialogUpdate.getData(2)[1], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 3:
+        case 3: {
             dialogUpdate.getWindow(3);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(3)[0] != "" && dialogUpdate.getData(3)[1] != "" && dialogUpdate.getData(3)[2] != "" && dialogUpdate.getData(3)[3] != "" && dialogUpdate.getData(3)[4] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(3);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update book set name = '%1', id_author = %2, id_typeStyle = %3, yea = %4, countList = %5 where id = %6";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(3)[0], dialogUpdate.getData(3)[1], dialogUpdate.getData(3)[2], dialogUpdate.getData(3)[3], dialogUpdate.getData(3)[4], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2], data[3], data[4], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 4:
+        case 4: {
             dialogUpdate.getWindow(4);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(4)[0] != "" && dialogUpdate.getData(4)[1] != "" && dialogUpdate.getData(4)[2] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(4);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update logs set nameAction = '%1', date = '%2', nameTable = '%3' where id = %4";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(4)[0], dialogUpdate.getData(4)[1], dialogUpdate.getData(4)[2], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 5:
+        case 5: {
             dialogUpdate.getWindow(5);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(5)[0] != "" && dialogUpdate.getData(5)[1] != "" && dialogUpdate.getData(5)[2] != "" && dialogUpdate.getData(5)[3] != "" && dialogUpdate.getData(5)[4] != "" && dialogUpdate.getData(5)[5] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(5);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update marketBook set date = '%1', id_action = %2, id_staffMember = %3, id_book = %4, count = %5, price = %6 where id = %7";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(5)[0], dialogUpdate.getData(5)[1], dialogUpdate.getData(5)[2], dialogUpdate.getData(5)[3], dialogUpdate.getData(5)[4], dialogUpdate.getData(5)[5], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2], data[3], data[4], data[5], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 6:
+        case 6: {
             dialogUpdate.getWindow(6);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(6)[0] != "" && dialogUpdate.getData(6)[1] != "" && dialogUpdate.getData(6)[2] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(6);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update staffMember set fio = '%1', numberPhone = %2, inn = %3 where id = %4";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(6)[0], dialogUpdate.getData(6)[1], dialogUpdate.getData(6)[2], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], data[1], data[2], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
 
-        case 7:
+        case 7: {
             dialogUpdate.getWindow(7);
             dialogUpdate.exec();
-            if (dialogUpdate.getData(7)[0] != "" && dialogUpdate.transaction()) {
+            const QStringList& data = dialogUpdate.getData(7);
+            if (dialogUpdate.transaction() && !data.contains("")) {
                 QString strQuery = "update typeStyle set nameStyle = '%1' where id = %2";
-                databaseQuery.execQuery(QString(strQuery).arg(dialogUpdate.getData(7)[0], QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
+                databaseQuery.execQuery(QString(strQuery).arg(data[0], QString::number(rowIndex(currentRow))));
             }
             break;
+        }
     }
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    QString strQuery = "";
+    db.setDatabaseName("lab.db");
     databaseQuery databaseQuery;
-    switch (ui->comboBox->currentIndex()) {
-        case 0:
-            strQuery = "delete from action where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
 
-        case 1:
-            strQuery = "delete from allDeliveries where id %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
+    if (!db.isOpen())
+        db.open();
 
-        case 2:
-            strQuery = "delete from author where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
+    const int currentRow = ui->tableWidget->currentItem()->row()+1, tableIndex = ui->comboBox->currentIndex();
+    QStringList tableNames = {"action", "allDeliveries", "author", "book", "logs", "marketBook", "staffMember", "typeStyle"};
 
-        case 3:
-            strQuery = "delete from book where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
-
-        case 4:
-            strQuery = "delete from logs where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
-
-        case 5:
-            strQuery = "delete from marketBook where id = %1;";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
-
-        case 6:
-            strQuery = "delete from staffMember where id = %1";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
-
-        case 7:
-            strQuery = "delete from typeStyle where id = %1";
-            databaseQuery.execQuery(QString(strQuery).arg(QString::number(rowIndex(ui->tableWidget->currentItem()->row()+1))));
-            break;
+    if (0 <= tableIndex && tableIndex < tableNames.size()) {
+        QString strQuery = "delete from %1 where id = %2";
+        databaseQuery.execQuery(QString(strQuery).arg(tableNames[tableIndex]).arg(rowIndex(currentRow)));
     }
-
 }
 
 void MainWindow::on_pushButton_4_clicked()
@@ -341,7 +328,6 @@ void MainWindow::on_pushButton_4_clicked()
         st[i] = query.value(0).toInt();
         ++i;
     }
-    qDebug() << st;
 
     db.close();
 
@@ -385,11 +371,37 @@ void MainWindow::on_pushButton_5_clicked()
     const int rowCount = ui->tableWidget->rowCount();
     const int columnCount = ui->tableWidget->columnCount();
 
-    out << "<html>\n" << "<head>\n" <<
-        QString("<title>%1</title>").arg("lab")
+    out << "<html>\n" << "<head>\n"
+           "<style>\n"
+           "table {\n"
+           "font-family: \"Lucida Sans Unicode\", \"Lucida Grande\", Sans-Serif;\n"
+           "font-size: 14px;\n"
+           "background: white;\n"
+           "max-width: 70%;\n"
+           "width: 70%;\n"
+           "border-collapse: collapse;\n"
+           "text-align: left;\n"
+           "}\n"
+           "th {\n"
+           "font-weight: normal;\n"
+           "color: #039;\n"
+           "border-bottom: 2px solid #6678b1;\n"
+           "padding: 10px 8px;\n"
+           "}\n"
+           "td {\n"
+           "border-bottom: 1px solid #ccc;\n"
+           "color: #669;\n"
+           "padding: 9px 8px;\n"
+           "transition: .3s; linear;\n"
+           "}\n"
+           "tr:hover td {\n"
+           "color: #6699ff;\n"
+           "}\n"
+           "</style>\n"
+        << QString("<title>%1</title>").arg("lab")
         << "</head>\n"
            "<body bgcolor = #f0f0f0>\n"
-           "<table border = 1>\n";
+           "<table>\n";
 
     out << "<thead><tr bgcolor=#f0f0f0>";
     for (int column = 0; column < columnCount; ++column) {
@@ -456,9 +468,7 @@ void MainWindow::on_comboBox_activated(int index)
     }
 }
 
-
 void MainWindow::on_pushButton_6_clicked()
 {
 
 }
-

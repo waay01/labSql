@@ -31,6 +31,10 @@ set(PROJECT_SOURCES
         dialog.h
         dialog.cpp
         dialog.ui
+
+        search.h
+        search.cpp
+        search.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

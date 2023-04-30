@@ -17,11 +17,11 @@ public:
 
     void getWindow(int index);
 
-    void sendData(int index, std::vector<QStringList> itemList);
+    void sendData(int index, const QVector<QStringList>& itemList);
 
     QStringList getData(int index);
 
-    void setName(QString name);
+    void setName(const QString& name);
 
     bool transaction();
 

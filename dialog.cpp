@@ -20,26 +20,20 @@ void dialog::getWindow(int index) {
     ui->stackedWidget->setCurrentIndex(index);
 }
 
-void dialog::setName(QString name) {
+void dialog::setName(const QString& name) {
     ui->label->setText(name + ':');
 }
 
-void dialog::sendData(int index, std::vector<QStringList> itemList) {
-    switch(index) {
-        case 1:
-            ui->comboBox->addItems(itemList[0]);
-            break;
-
-        case 3:
-            ui->comboBox_2->addItems(itemList[0]);
-            ui->comboBox_3->addItems(itemList[1]);
-            break;
-
-        case 5:
-            ui->comboBox_6->addItems(itemList[0]);
-            ui->comboBox_5->addItems(itemList[1]);
-            ui->comboBox_4->addItems(itemList[2]);
-            break;
+void dialog::sendData(int index, const QVector<QStringList>& itemList) {
+    if (index == 1) {
+        ui->comboBox->addItems(itemList[0]);
+    } else if (index == 3) {
+        ui->comboBox_2->addItems(itemList[0]);
+        ui->comboBox_3->addItems(itemList[1]);
+    } else if (index == 5) {
+        ui->comboBox_6->addItems(itemList[0]);
+        ui->comboBox_5->addItems(itemList[1]);
+        ui->comboBox_4->addItems(itemList[2]);
     }
 }
 

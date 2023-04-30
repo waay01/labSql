@@ -1,37 +1,29 @@
 #include "databasequery.h"
 
-void databaseQuery::execQuery(QString strQuery) {
+void databaseQuery::execQuery(const QString& strQuery) {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("lab.db");
-    QSqlQuery query;
 
-    db.open();
-    query.exec(strQuery);
-    db.close();
+    if (db.open()) {
+        QSqlQuery query(db);
+        query.exec(strQuery);
+        db.close();
+    }
 }
 
-QStringList databaseQuery::execQueryPRAGMA(QString strTable) {
+QStringList databaseQuery::execQueryPRAGMA(const QString& strTable) {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("lab.db");
-    QSqlQuery query;
     QStringList nameColumn;
 
-    db.open();
+    if (!db.open())
+        return nameColumn;
 
+    QSqlQuery query(db);
     query.exec(QString("PRAGMA table_info(%1)").arg(strTable));
-    while(query.next()) {
+    while(query.next())
         nameColumn += query.value(1).toStringList();
-    }
+
     db.close();
     return nameColumn;
 }
-
-//void databaseQuery::execQueryAdd(QString strQuery) {
-//    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-//    db.setDatabaseName("lab.db");
-//    QSqlQuery query;
-
-//    db.open();
-//    query.exec(strQuery);
-//    db.close();
-//}

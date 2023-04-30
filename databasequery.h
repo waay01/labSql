@@ -7,12 +7,9 @@
 class databaseQuery
 {
 public:
-    void execQuery(QString strQuery);
-    void execQueryAdd(QString strQuery);
-    void execQueryUpdate(QString strQuery);
-    void execQueryDelete(QString strQuery);
+    void execQuery(const QString& strQuery);
 
-    QStringList execQueryPRAGMA(QString strTable);
+    QStringList execQueryPRAGMA(const QString& strTable);
 };
 
 #endif // DATABASEQUERY_H
