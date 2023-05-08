@@ -1,13 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
 #include <QMainWindow>
 #include <QSql>
 #include <QSqlQuery>
-#include <iostream>
+#include <QFile>
+#include <QMessageBox>
 
 #include "databaseQuery.h"
 #include "addnametable.h"
+#include "dialog.h"
+#include "searchDB.h"
+
+#include "qtextdocument.h"
 
 
 QT_BEGIN_NAMESPACE

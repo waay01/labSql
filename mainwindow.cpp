@@ -1,9 +1,5 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "qtextdocument.h"
-#include "dialog.h"
-#include <QFile>
-#include <QMessageBox>
 
 using namespace std;
 
@@ -454,6 +450,8 @@ void MainWindow::on_comboBox_activated(int index)
         ui->pushButton_2->setStyleSheet("background-color: #d9d9d9;");
         ui->pushButton_3->setEnabled(false);
         ui->pushButton_3->setStyleSheet("background-color: #d9d9d9;");
+        ui->pushButton_6->setEnabled(false);
+        ui->pushButton_6->setStyleSheet("background-color: #d9d9d9;");
     }
     else {
         ui->pushButton->setEnabled(true);
@@ -465,10 +463,65 @@ void MainWindow::on_comboBox_activated(int index)
         ui->pushButton_3->setEnabled(true);
         ui->pushButton_3->setStyleSheet("background-color: #f1f1f1;"
                                         "#pushButton_3:hover {background-color: #e0e0e0;}");
+        ui->pushButton_6->setEnabled(true);
+        ui->pushButton_6->setStyleSheet("background-color: #f1f1f1;"
+                                        "#pushButton_3:hover {background-color: #e0e0e0;}");
     }
 }
 
 void MainWindow::on_pushButton_6_clicked()
 {
+    searchDB search;
+    search.setModal(true);
 
+    const int currentIndex = ui->comboBox->currentIndex();
+    switch (currentIndex) {
+        case 0: {
+            search.getWindow(0);
+            search.exec();
+            break;
+        }
+
+        case 1: {
+            search.getWindow(1);
+            search.exec();
+            break;
+        }
+
+        case 2: {
+            search.getWindow(2);
+            search.exec();
+            break;
+        }
+
+        case 3: {
+            search.getWindow(3);
+            search.exec();
+            break;
+        }
+
+        case 4: {
+            search.getWindow(4);
+            search.exec();
+            break;
+        }
+
+        case 5: {
+            search.getWindow(5);
+            search.exec();
+            break;
+        }
+
+        case 6: {
+            search.getWindow(6);
+            search.exec();
+            break;
+        }
+
+        case 7: {
+            search.getWindow(7);
+            search.exec();
+            break;
+        }
+    }
 }
