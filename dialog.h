@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "databasequery.h"
+
 namespace Ui {
 class dialog;
 }
@@ -16,6 +18,8 @@ public:
     ~dialog();
 
     void getWindow(int index);
+
+    void preInput(int indexTable, int row);
 
     void sendData(int index, const QVector<QStringList>& itemList);
 

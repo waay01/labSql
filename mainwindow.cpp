@@ -4,7 +4,6 @@
 using namespace std;
 
 map<int, int> st;
-QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,21 +25,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void connectDB(QSqlDatabase db) {
+    if (!db.isOpen()) {
+        db.setDatabaseName("lab.db");
+        db.open();
+    }
+}
+
 int rowIndex(int row) {
     return st[row];
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    db.setDatabaseName("lab.db");
     databaseQuery databaseQuery;
 
     dialog dialogInsert;
     dialogInsert.setName("Добавление");
     dialogInsert.setModal(true);
-
-    if (!db.isOpen())
-        db.open();
 
     const int currentIndex = ui->comboBox->currentIndex();
     switch (currentIndex) {
@@ -58,9 +60,11 @@ void MainWindow::on_pushButton_clicked()
         case 1: {
             QStringList marketBookIDs;
 
-            QSqlQuery query("select id from marketBook", db);
-            while(query.next())
-                marketBookIDs += query.value(0).toString();
+            QSqlQueryModel* query = databaseQuery.execSelectQuery("select id from marketBook");
+            int countRow = query->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                marketBookIDs += query->data(query->index(row, 0)).toString();
+            delete query;
 
             dialogInsert.sendData(currentIndex, { marketBookIDs });
             dialogInsert.getWindow(1);
@@ -88,15 +92,19 @@ void MainWindow::on_pushButton_clicked()
             QStringList authorIDs, typeStyleIDs;
             QVector<QStringList> itemList;
 
-            QSqlQuery queryAuthor("select id from author");
-            while(queryAuthor.next())
-                authorIDs += queryAuthor.value(0).toString();
+            QSqlQueryModel* queryAuthor = databaseQuery.execSelectQuery("select id from author");
+            int countRow = queryAuthor->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                authorIDs += queryAuthor->data(queryAuthor->index(row, 0)).toString();
             itemList.emplace_back(authorIDs);
+            delete queryAuthor;
 
-            QSqlQuery queryTypeStyle("select id from typeStyle");
-            while(queryTypeStyle.next())
-                typeStyleIDs += queryTypeStyle.value(0).toString();
+            QSqlQueryModel* queryTypeStyle = databaseQuery.execSelectQuery("select id from typeStyle");
+            countRow = queryTypeStyle->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                typeStyleIDs += queryTypeStyle->data(queryTypeStyle->index(row, 0)).toString();
             itemList.emplace_back(typeStyleIDs);
+            delete queryTypeStyle;
 
             dialogInsert.sendData(currentIndex, itemList);
             dialogInsert.getWindow(3);
@@ -124,20 +132,26 @@ void MainWindow::on_pushButton_clicked()
             QStringList actionIDs, staffMemberIDs, bookIDs;
             QVector<QStringList> itemList;
 
-            QSqlQuery queryAction("select id from action");
-            while(queryAction.next())
-                actionIDs += queryAction.value(0).toString();
+            QSqlQueryModel* queryAction = databaseQuery.execSelectQuery("select id from action");
+            int countRow = queryAction->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                actionIDs += queryAction->data(queryAction->index(row, 0)).toString();
             itemList.emplace_back(actionIDs);
+            delete queryAction;
 
-            QSqlQuery querystaffMember("select id from staffMember");
-            while(querystaffMember.next())
-                staffMemberIDs += querystaffMember.value(0).toString();
+            QSqlQueryModel* querystaffMember = databaseQuery.execSelectQuery("select id from staffMember");
+            countRow = querystaffMember->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                staffMemberIDs += querystaffMember->data(querystaffMember->index(row, 0)).toString();
             itemList.emplace_back(staffMemberIDs);
+            delete querystaffMember;
 
-            QSqlQuery queryBookIDs("select id from book");
-            while(queryBookIDs.next())
-                bookIDs += queryBookIDs.value(0).toString();
+            QSqlQueryModel* queryBookIDs = databaseQuery.execSelectQuery("select id from book");
+            countRow = queryBookIDs->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                bookIDs += queryBookIDs->data(queryBookIDs->index(row, 0)).toString();
             itemList.emplace_back(bookIDs);
+            delete queryBookIDs;
 
             dialogInsert.sendData(currentIndex, itemList);
             dialogInsert.getWindow(5);
@@ -176,20 +190,18 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    db.setDatabaseName("lab.db");
+
     databaseQuery databaseQuery;
 
     dialog dialogUpdate;
     dialogUpdate.setName("Редактирование");
     dialogUpdate.setModal(true);
 
-    if (!db.isOpen())
-        db.open();
-
     const int currentIndex = ui->comboBox->currentIndex(), currentRow = ui->tableWidget->currentItem()->row()+1;
     switch (currentIndex) {
         case 0: {
             dialogUpdate.getWindow(0);
+            dialogUpdate.preInput(0, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(0);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -200,7 +212,18 @@ void MainWindow::on_pushButton_2_clicked()
         }
 
         case 1: {
+            QStringList marketBookIDs;
+            QSqlQueryModel* query = databaseQuery.execSelectQuery("select id from marketBook");
+
+            int countRow = query->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                marketBookIDs += query->data(query->index(row, 0)).toString();
+            delete query;
+
+
             dialogUpdate.getWindow(1);
+            dialogUpdate.sendData(currentIndex, { marketBookIDs });
+            dialogUpdate.preInput(1, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(1);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -212,6 +235,7 @@ void MainWindow::on_pushButton_2_clicked()
 
         case 2: {
             dialogUpdate.getWindow(2);
+            dialogUpdate.preInput(2, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(2);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -222,7 +246,27 @@ void MainWindow::on_pushButton_2_clicked()
         }
 
         case 3: {
+            QStringList authorIDs, typeStyleIDs;
+            QVector<QStringList> itemList;
+
+            QSqlQueryModel* queryAuthor = databaseQuery.execSelectQuery("select id from author");
+            int countRow = queryAuthor->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                authorIDs += queryAuthor->data(queryAuthor->index(row, 0)).toString();
+            itemList.emplace_back(authorIDs);
+            delete queryAuthor;
+
+            QSqlQueryModel* queryTypeStyle = databaseQuery.execSelectQuery("select id from typeStyle");
+            countRow = queryTypeStyle->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                typeStyleIDs += queryTypeStyle->data(queryTypeStyle->index(row, 0)).toString();
+            itemList.emplace_back(typeStyleIDs);
+            delete queryTypeStyle;
+
+
             dialogUpdate.getWindow(3);
+            dialogUpdate.sendData(currentIndex, itemList);
+            dialogUpdate.preInput(3, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(3);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -234,6 +278,7 @@ void MainWindow::on_pushButton_2_clicked()
 
         case 4: {
             dialogUpdate.getWindow(4);
+            dialogUpdate.preInput(4, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(4);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -244,7 +289,34 @@ void MainWindow::on_pushButton_2_clicked()
         }
 
         case 5: {
+            QStringList actionIDs, staffMemberIDs, bookIDs;
+            QVector<QStringList> itemList;
+
+            QSqlQueryModel* queryAction = databaseQuery.execSelectQuery("select id from action");
+            int countRow = queryAction->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                actionIDs += queryAction->data(queryAction->index(row, 0)).toString();
+            itemList.emplace_back(actionIDs);
+            delete queryAction;
+
+            QSqlQueryModel* querystaffMember = databaseQuery.execSelectQuery("select id from staffMember");
+            countRow = querystaffMember->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                staffMemberIDs += querystaffMember->data(querystaffMember->index(row, 0)).toString();
+            itemList.emplace_back(staffMemberIDs);
+            delete querystaffMember;
+
+            QSqlQueryModel* queryBookIDs = databaseQuery.execSelectQuery("select id from book");
+            countRow = queryBookIDs->rowCount();
+            for (int row = 0; row < countRow; ++row)
+                bookIDs += queryBookIDs->data(queryBookIDs->index(row, 0)).toString();
+            itemList.emplace_back(bookIDs);
+            delete queryBookIDs;
+
+
             dialogUpdate.getWindow(5);
+            dialogUpdate.sendData(currentIndex, itemList);
+            dialogUpdate.preInput(5, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(5);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -256,6 +328,7 @@ void MainWindow::on_pushButton_2_clicked()
 
         case 6: {
             dialogUpdate.getWindow(6);
+            dialogUpdate.preInput(6, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(6);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -267,6 +340,7 @@ void MainWindow::on_pushButton_2_clicked()
 
         case 7: {
             dialogUpdate.getWindow(7);
+            dialogUpdate.preInput(7, currentRow-1);
             dialogUpdate.exec();
             const QStringList& data = dialogUpdate.getData(7);
             if (dialogUpdate.transaction() && !data.contains("")) {
@@ -280,12 +354,7 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    db.setDatabaseName("lab.db");
     databaseQuery databaseQuery;
-
-    if (!db.isOpen())
-        db.open();
-
     const int currentRow = ui->tableWidget->currentItem()->row()+1, tableIndex = ui->comboBox->currentIndex();
     QStringList tableNames = {"action", "allDeliveries", "author", "book", "logs", "marketBook", "staffMember", "typeStyle"};
 
@@ -298,34 +367,23 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_4_clicked()
 {
     int countRow = 0, countColumn = 0;
+    databaseQuery databaseQuery;
     QStringList nameColumn, itemList;
-
     QString strTable = ui->comboBox->currentText();
 
-    databaseQuery databaseQuery;
     nameColumn = databaseQuery.execQueryPRAGMA(strTable);
     countColumn = nameColumn.size();
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QSqlQuery query;
-    db.setDatabaseName("lab.db");
-    db.open();
-
-    query.exec(QString("select * from %1").arg(strTable));
-    while(query.next()) {
-        for (int i = 0; i < countColumn; ++i)
-            itemList += query.value(i).toString();
-        ++countRow;
-    }
-
+    QSqlQueryModel* query = databaseQuery.execSelectQuery(QString("select * from %1").arg(strTable));
+    countRow = query->rowCount();
     int i = 1;
-    query.exec(QString("select * from %1").arg(strTable));
-    while(query.next()) {
-        st[i] = query.value(0).toInt();
+    for (int row = 0; row < countRow; ++row) {
+        for (int column = 0; column < countColumn; ++column)
+            itemList += query->data(query->index(row, column)).toString();
+        st[i] = query->data(query->index(row, 0)).toInt();
         ++i;
     }
-
-    db.close();
+    delete query;
 
     ui->tableWidget->setColumnCount(countColumn);
     ui->tableWidget->setRowCount(countRow);
@@ -369,34 +427,41 @@ void MainWindow::on_pushButton_5_clicked()
 
     out << "<html>\n" << "<head>\n"
            "<style>\n"
-           "table {\n"
-           "font-family: \"Lucida Sans Unicode\", \"Lucida Grande\", Sans-Serif;\n"
-           "font-size: 14px;\n"
-           "background: white;\n"
-           "max-width: 70%;\n"
-           "width: 70%;\n"
-           "border-collapse: collapse;\n"
-           "text-align: left;\n"
-           "}\n"
-           "th {\n"
-           "font-weight: normal;\n"
-           "color: #039;\n"
-           "border-bottom: 2px solid #6678b1;\n"
-           "padding: 10px 8px;\n"
-           "}\n"
-           "td {\n"
-           "border-bottom: 1px solid #ccc;\n"
-           "color: #669;\n"
-           "padding: 9px 8px;\n"
-           "transition: .3s; linear;\n"
-           "}\n"
-           "tr:hover td {\n"
-           "color: #6699ff;\n"
-           "}\n"
+           "body {"
+             "margin: 0;"
+             "padding: 24px;"
+             "font-family: 'Source Sans Pro', sans-serif;"
+           "}"
+
+          " table {"
+             "width: 100%;"
+             "border: 1px solid #eee;"
+             "border-collapse: collapse;"
+           "}"
+
+           "thead {"
+             "background-color: #000;"
+             "color: #fff;"
+           "}"
+
+           "th,"
+           "td {"
+             "padding: 12px;"
+             "text-align: center;"
+             "color: black;"
+           "}"
+
+           "th {"
+             "text-transform: uppercase;"
+           "}"
+
+           "tr:nth-of-type(odd) {"
+             "background-color: #f0dfce;"
+           "}"
            "</style>\n"
         << QString("<title>%1</title>").arg("lab")
         << "</head>\n"
-           "<body bgcolor = #f0f0f0>\n"
+           "<body>\n"
            "<table>\n";
 
     out << "<thead><tr bgcolor=#f0f0f0>";
@@ -409,7 +474,7 @@ void MainWindow::on_pushButton_5_clicked()
         out << "<tr>";
         for (int column = 0; column < columnCount; ++column) {
             QString data = ui->tableWidget->model()->data(ui->tableWidget->model()->index(row, column)).toString().simplified();
-            out << QString("<td bkcolor = 0>%1</td>").arg((!data.isEmpty()) ? data:QString("&nbsp;"));
+            out << QString("<td>%1</td>").arg((!data.isEmpty()) ? data:QString("&nbsp;"));
         }
         out << "</tr>\n";
     }
