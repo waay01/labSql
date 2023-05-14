@@ -8,6 +8,8 @@
 class databaseQuery
 {
 public:
+    QSqlDatabase connectDB();
+
     void execQuery(const QString& strQuery);
 
     QSqlQueryModel* execSelectQuery(const QString& strQuery);

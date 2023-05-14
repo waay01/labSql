@@ -2,10 +2,11 @@
 #define SEARCHDB_H
 
 #include "qlineedit.h"
-#include "qmessagebox.h"
 #include <QDialog>
 #include <QSql>
 #include <QSqlQuery>
+#include <QMessageBox>
+
 #include "databaseQuery.h"
 #include "mainwindow.h"
 
