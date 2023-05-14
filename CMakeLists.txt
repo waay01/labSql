@@ -61,6 +61,7 @@ else()
 endif()
 
 target_link_libraries(exampleSQL PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(exampleSQL PRIVATE Qt6::Sql)
 
 set_target_properties(exampleSQL PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -78,4 +79,3 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(exampleSQL)
 endif()
 
-target_link_libraries(exampleSQL PRIVATE Qt6::Sql)
